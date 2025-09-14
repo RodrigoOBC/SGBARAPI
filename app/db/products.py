@@ -37,3 +37,15 @@ class Produto(Base):
     
     def select_value_by_id(self, session, id):
         return session.query(Produto).filter_by(id=id).first()
+
+if __name__ == "__main__":
+    conector = Conector(
+       user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    dbname=os.getenv("DB_NAME")
+    )
+    engine = conector.engine
+    session = conector.session_local
+
+    produto = Produto()
+    produto.create_table(engine)

@@ -36,3 +36,33 @@ class Cliente(Base):
     
     def select_value_by_id(self, session, id):
         return session.query(Cliente).filter_by(id=id).first()
+
+
+if __name__ == "__main__":
+    conector = Conector(
+       user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    dbname=os.getenv("DB_NAME")
+    )
+    engine = conector.engine
+    session = conector.session_local
+
+    cliente = Cliente()
+    cliente.create_table(engine)
+
+    # Exemplo de inserção
+    with session() as s:
+        new_id = cliente.insert_values(s, "João Silva", "123456789")
+        print(f"Novo cliente inserido com ID: {new_id}")
+
+        # Exemplo de seleção
+        all_clients = cliente.select_all_values(s)
+        for client in all_clients:
+            print(f"ID: {client.id}, Nome: {client.name}, Telefone: {client.telefone}")
+
+        # Exemplo de seleção por ID
+        client = cliente.select_value_by_id(s, new_id)
+        if client: 
+            print(f"Cliente encontrado - ID: {client.id}, Nome: {client.name}, Telefone:{client.telefone}")
+
+

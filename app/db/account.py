@@ -60,3 +60,14 @@ class Conta(Base):
 
 
 
+if __name__ == "__main__":
+    conector = Conector(
+       user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    dbname=os.getenv("DB_NAME")
+    )
+    engine = conector.engine
+    session = conector.session_local
+
+    conta = Conta()
+    conta.create_table(engine)

@@ -1,5 +1,5 @@
 from app.db.account import Conta
-from app.db.account_product import conta_produto
+from app.db.account_product import Conta_produto
 from app.db.products import Produto
 from app.db.cliente import Cliente
 from app.db.conector import Conector
@@ -14,7 +14,7 @@ class account_service:
         self.conta = Conta()
         self.produto = Produto()
         self.cliente = Cliente()
-        self.conta_produto = conta_produto()
+        self.conta_produto = Conta_produto()
     
     def get_accounts_by_id(self, account_id):
         db = self.conector.conect()
