@@ -33,3 +33,24 @@ async def create_product(request: dict):
     produto.insert_values(db, request['name'], request['value'], request.get('quantity', 0))
     Conector_db.desconect()
     return {"message": "Product created successfully"}
+
+@router.put("")
+async def update_product(request: dict):
+    db = Conector_db.conect()
+    produto = Produto()
+    updated_product = produto.update_value(db, request['id'], request.get('value'), request.get('quantity'))
+    Conector_db.desconect()
+    if updated_product:
+        return {"message": f'product {updated_product.name} updated successfully'}
+    else:
+        return {"message": "Product not found"}
+
+
+@router.delete("/{product_id}")
+async def delete_product(product_id: int):
+    print(f"Deleting product with ID: {product_id}")
+    db = Conector_db.conect()
+    produto = Produto()
+    produto.delete_values(db, product_id)
+    Conector_db.desconect()
+    return {"message": "Product deleted successfully"}

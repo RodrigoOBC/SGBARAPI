@@ -27,7 +27,7 @@ class Produto(Base):
         session.commit()
     
     def delete_values(self, session, producto_id):
-        produto = session.query(produto).filter(produto.id == producto_id).first()
+        produto = session.query(Produto).filter(Produto.id == producto_id).first()
         if produto:
             session.delete(produto)
             session.commit()
@@ -37,6 +37,17 @@ class Produto(Base):
     
     def select_value_by_id(self, session, id):
         return session.query(Produto).filter_by(id=id).first()
+
+    def update_value(self, session, producto_id, new_value=None, new_quantity=None):
+        produto = session.query(Produto).filter(Produto.id == producto_id).first()
+        if produto:
+            if new_value is not None:
+                produto.value = new_value
+            if new_quantity is not None:
+                produto.quantity = new_quantity
+            session.commit()
+            session.refresh(produto)  # Atualiza a instância com os dados mais recentes do banco
+        return produto
 
 if __name__ == "__main__":
     conector = Conector(
